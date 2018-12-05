@@ -13,8 +13,12 @@ public abstract class Box {
     float height;
     float length;
     float width;
-    float basePrice;
+    double gradePrice;
     double price;
+    double topPrice;
+    double colourPrice;
+    double bottomPrice;
+    double cornerPrice;
     int grade;
     int quantity;
     int colour;

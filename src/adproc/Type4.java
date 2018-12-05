@@ -25,24 +25,30 @@ public class Type4 extends Box{
     double calculate(double blank){
         price = getSurfaceArea();
         if(grade == 2){
-            price *= 0.65;
+            gradePrice = price * 0.65;
         } else if(grade == 3){
-            price *= 0.82;
+            gradePrice = price * 0.82;
         } else if(grade == 4){
-            price *= 0.98;
+            gradePrice = price * 0.98;
         } else if(grade == 5){
-            price *= 1.5;
+            gradePrice = price * 1.5;
         }
         if(colour == 3){
-            price *= 1.15;
+            colourPrice = price * 1.15;
         }
         if(bottom){
-            price *= 1.13;
+            bottomPrice = price * 1.13;
         }
         if(top){
-            price *= 1.1;
+            topPrice = price * 1.1;
         }
+        
+        price += gradePrice;
+        price += colourPrice;
+        price += bottomPrice;
+        price += topPrice;
         price *= quantity;
+        
         System.out.println(grade);
         System.out.println(top);
         System.out.println(quantity);
@@ -54,7 +60,7 @@ public class Type4 extends Box{
     }
     
     double getSurfaceArea(){
-        double answer = (2*(width*height))+(2*(length*height))+(width*length);
+        double answer = Math.round((((2*(width*height))+(2*(length*height))+(width*length))/1000000)*100.00)/100.00;
         return answer;
     }
     
