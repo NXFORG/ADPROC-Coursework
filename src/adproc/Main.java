@@ -19,14 +19,14 @@ public class Main extends javax.swing.JFrame {
     /**
      * Creates new form Main
      */
-    boolean check = false;
-    float height, length, width, blank;
-    double run, finalTotal;
-    int quantity, grade, colour;
-    boolean top, corner, bottom;
+    public boolean check = false;
+    public float height, length, width, blank;
+    public double run, finalTotal;
+    public int quantity, grade, colour;
+    public boolean top, corner, bottom;
     private ArrayList<Double> orderTotal = new ArrayList<Double>(); //stores prices
     private ArrayList<Box> boxList = new ArrayList<Box>(); //stores box objects
-    String total, orders, colourType, cornerChoice, bottomChoice, topChoice;
+    public String total, orders, colourType, cornerChoice, bottomChoice, topChoice;
 
     public Main() {
         initComponents();
@@ -517,11 +517,12 @@ public class Main extends javax.swing.JFrame {
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
         if (canFloat(widthBox.getText()) == false || Float.parseFloat(widthBox.getText()) < 100 
-                || canFloat(lengthBox.getText()) == false || Float.parseFloat(lengthBox.getText()) < 100 
+                || Float.parseFloat(widthBox.getText()) > 1000 || canFloat(lengthBox.getText()) == false //if value is parsable as a float
+                || Float.parseFloat(lengthBox.getText()) < 100 || Float.parseFloat(lengthBox.getText()) > 1000
                 || canFloat(heightBox.getText()) == false || Float.parseFloat(heightBox.getText()) < 100 
-                || gradeBox.getSelectedIndex() == 0 || colourPrint.getSelectedIndex() == 0 
-                || canFloat(quantityBox.getText()) == false || Float.parseFloat(quantityBox.getText()) < 1 
-                || Float.parseFloat(quantityBox.getText()) > 100) {//if value is parsable as a float
+                || Float.parseFloat(heightBox.getText()) > 1000 || gradeBox.getSelectedIndex() == 0
+                || colourPrint.getSelectedIndex() == 0 || canFloat(quantityBox.getText()) == false
+                || Float.parseFloat(quantityBox.getText()) < 1 || Float.parseFloat(quantityBox.getText()) > 100) {
             check = false;
         } else {
             check = true;//this variable is used so box type objects can be intialised without errors
@@ -821,6 +822,9 @@ public class Main extends javax.swing.JFrame {
         } else if (Float.parseFloat(heightBox.getText()) < 100) {
             whlError.setText("Value for height must be greater than 100mm");
             heightBox.setForeground(Color.red);
+        } else if (Float.parseFloat(heightBox.getText()) > 1000) {
+            whlError.setText("Value for height must not be greater than 1 metre");
+            heightBox.setForeground(Color.red);
         } else {
             whlError.setText(" ");
             heightBox.setForeground(Color.black);
@@ -834,6 +838,9 @@ public class Main extends javax.swing.JFrame {
         } else if (Float.parseFloat(lengthBox.getText()) < 100) {
             whlError.setText("Value for length must be greater than 100mm");
             lengthBox.setForeground(Color.red);
+        } else if (Float.parseFloat(lengthBox.getText()) > 1000) {
+            whlError.setText("Value for length must not be greater than 1 metre");
+            lengthBox.setForeground(Color.red);
         } else {
             whlError.setText(" ");
             lengthBox.setForeground(Color.black);
@@ -846,6 +853,9 @@ public class Main extends javax.swing.JFrame {
             widthBox.setForeground(Color.red); //font colour changed to red
         } else if (Float.parseFloat(widthBox.getText()) < 100) {
             whlError.setText("Value for width must be greater than 100mm");//a reasonable starting size for box width
+            widthBox.setForeground(Color.red);
+        } else if (Float.parseFloat(widthBox.getText()) > 1000) {
+            whlError.setText("Value for width must not be greater than 1 metre");//a reasonable starting size for box width
             widthBox.setForeground(Color.red);
         } else {
             whlError.setText(" ");

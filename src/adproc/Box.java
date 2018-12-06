@@ -10,21 +10,10 @@ package adproc;
  * @author chris
  */
 public abstract class Box {
-    float height;
-    float length;
-    float width;
-    double gradePrice;
-    double price;
-    double topPrice;
-    double colourPrice;
-    double bottomPrice;
-    double cornerPrice;
-    int grade;
-    int quantity;
-    int colour;
-    boolean bottom;
-    boolean corner;
-    boolean top;
+    float height, length, width;
+    double gradePrice, price, topPrice, colourPrice, bottomPrice, cornerPrice;
+    int grade, quantity, colour;
+    boolean bottom, corner, top;
     
     abstract double calculate(double blank);
     abstract double getSurfaceArea();
