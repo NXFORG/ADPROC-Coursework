@@ -24,8 +24,8 @@ public class Main extends javax.swing.JFrame {
     double run, finalTotal;
     int quantity, grade, colour;
     boolean top, corner, bottom;
-    private ArrayList<Double> orderTotal = new ArrayList<Double>();
-    private ArrayList<Box> boxList = new ArrayList<Box>();
+    private ArrayList<Double> orderTotal = new ArrayList<Double>(); //stores prices
+    private ArrayList<Box> boxList = new ArrayList<Box>(); //stores box objects
     String total, orders, colourType, cornerChoice, bottomChoice, topChoice;
 
     public Main() {
@@ -44,6 +44,7 @@ public class Main extends javax.swing.JFrame {
         label1 = new java.awt.Label();
         jPanel3 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        checkBoxes = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         label2 = new java.awt.Label();
@@ -75,6 +76,8 @@ public class Main extends javax.swing.JFrame {
         orderButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         outputArea = new javax.swing.JTextArea();
+        jLabel5 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
 
         label1.setText("label1");
 
@@ -105,6 +108,11 @@ public class Main extends javax.swing.JFrame {
         lengthBox.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         lengthBox.setText("length");
         lengthBox.setToolTipText("length");
+        lengthBox.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lengthBoxMouseClicked(evt);
+            }
+        });
         lengthBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lengthBoxActionPerformed(evt);
@@ -123,6 +131,16 @@ public class Main extends javax.swing.JFrame {
         heightBox.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         heightBox.setText("height");
         heightBox.setToolTipText("height");
+        heightBox.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                heightBoxMouseClicked(evt);
+            }
+        });
+        heightBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                heightBoxActionPerformed(evt);
+            }
+        });
         heightBox.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 heightBoxKeyReleased(evt);
@@ -136,6 +154,11 @@ public class Main extends javax.swing.JFrame {
         widthBox.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         widthBox.setText("width");
         widthBox.setToolTipText("width");
+        widthBox.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                widthBoxMouseClicked(evt);
+            }
+        });
         widthBox.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 widthBoxKeyReleased(evt);
@@ -149,6 +172,11 @@ public class Main extends javax.swing.JFrame {
         gradeBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Please Select", "Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5" }));
         gradeBox.setToolTipText("Box Grade");
         gradeBox.setName("Grade"); // NOI18N
+        gradeBox.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                gradeBoxMouseEntered(evt);
+            }
+        });
         gradeBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 gradeBoxActionPerformed(evt);
@@ -158,6 +186,11 @@ public class Main extends javax.swing.JFrame {
         colourPrint.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
         colourPrint.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Please Select", "No Colour", "1 Colour", "2 Colours" }));
         colourPrint.setToolTipText("Do you need colour printing?");
+        colourPrint.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                colourPrintMouseEntered(evt);
+            }
+        });
         colourPrint.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 colourPrintActionPerformed(evt);
@@ -167,6 +200,11 @@ public class Main extends javax.swing.JFrame {
         quantityBox.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
         quantityBox.setText("Quantity");
         quantityBox.setToolTipText("Enter the quantity of boxes you require");
+        quantityBox.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                quantityBoxMouseClicked(evt);
+            }
+        });
         quantityBox.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 quantityBoxKeyReleased(evt);
@@ -182,7 +220,7 @@ public class Main extends javax.swing.JFrame {
 
         jLabel3.setText("Colour Printing?");
 
-        jLabel7.setText("Quantity:");
+        jLabel7.setText("Please enter the quantity of boxes you would like:");
 
         costBox.setEditable(false);
         costBox.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
@@ -195,7 +233,12 @@ public class Main extends javax.swing.JFrame {
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("This quote:");
 
-        submitButton.setText("Add To Order");
+        submitButton.setText("Get Quote");
+        submitButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                submitButtonMouseEntered(evt);
+            }
+        });
         submitButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 submitButtonActionPerformed(evt);
@@ -216,14 +259,17 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        bottomReinf.setBackground(new java.awt.Color(204, 204, 204));
         bottomReinf.setText("Bottom Reinforcement?");
         bottomReinf.setToolTipText("Bottom Reinforcement?");
         bottomReinf.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
 
+        cornerReinf.setBackground(new java.awt.Color(204, 204, 204));
         cornerReinf.setText("Corner Reinforcement?");
         cornerReinf.setToolTipText("Corner Reinforcement?");
         cornerReinf.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
 
+        sealBox.setBackground(new java.awt.Color(204, 204, 204));
         sealBox.setText("Sealable Top?");
         sealBox.setToolTipText("Sealable Top?");
         sealBox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
@@ -269,68 +315,82 @@ public class Main extends javax.swing.JFrame {
         outputArea.setRows(8);
         jScrollPane1.setViewportView(outputArea);
 
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel5.setText("Your order:");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(clearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(helpButton, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(closeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(bottomReinf)
-                                    .addComponent(cornerReinf)
-                                    .addComponent(sealBox)
-                                    .addComponent(quantityBox, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel7))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(clearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(helpButton, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(closeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(widthBox, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(lengthBox, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(heightBox, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(colourError)
-                                    .addComponent(gradeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(colourPrint, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(gradeError)
-                                    .addComponent(jLabel3)
-                                    .addComponent(whlError)
-                                    .addComponent(jLabel2))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)))
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addComponent(widthBox, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(lengthBox, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(heightBox, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(gradeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(colourPrint, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(gradeError)
+                                            .addComponent(jLabel3)
+                                            .addComponent(whlError)
+                                            .addComponent(jLabel2))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 142, Short.MAX_VALUE))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(bottomReinf)
+                                            .addComponent(cornerReinf)
+                                            .addComponent(sealBox)
+                                            .addComponent(colourError))
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jSeparator1)
+                                        .addGap(80, 80, 80))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(quantityBox, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(141, 141, 141)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel4)
+                                            .addComponent(jLabel8))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(orderButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(submitButton))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(costBox, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(orderCost, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel5)
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(141, 141, 141)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel8))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(orderButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(submitButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(costBox, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(orderCost, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jLabel1)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(19, 19, 19))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
+                            .addComponent(jLabel7)
                             .addComponent(quantityError))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -343,7 +403,9 @@ public class Main extends javax.swing.JFrame {
                         .addComponent(clearButton))
                     .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -363,20 +425,23 @@ public class Main extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(colourPrint, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(colourError)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bottomReinf))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cornerReinf)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(colourError)
+                        .addGap(9, 9, 9)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(bottomReinf)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cornerReinf)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(sealBox)
-                        .addGap(22, 22, 22)
-                        .addComponent(jLabel7))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel7)
+                        .addGap(18, 18, 18)
+                        .addComponent(quantityBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(costBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(submitButton)
@@ -387,8 +452,6 @@ public class Main extends javax.swing.JFrame {
                             .addComponent(orderButton)
                             .addComponent(jLabel4))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(quantityBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(quantityError)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -406,8 +469,8 @@ public class Main extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -435,53 +498,35 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_closeButtonActionPerformed
 
     private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
-        quantityBox.setText("Quantity");
+        quantityBox.setText("Quantity"); //this button resets all input/output textboxes
         lengthBox.setText("length");
         heightBox.setText("height");
         widthBox.setText("width");
+        bottomReinf.setSelected(false);
+        cornerReinf.setSelected(false);
+        sealBox.setSelected(false);
         costBox.setText(" ");
         orderCost.setText(" ");
         orderTotal.clear();
+        outputArea.setText(null);
     }//GEN-LAST:event_clearButtonActionPerformed
 
     private void gradeBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gradeBoxActionPerformed
-        if (gradeBox.getSelectedIndex() != 0) {
-            gradeError.setText(" ");
-        }
+        verifyGrade();
     }//GEN-LAST:event_gradeBoxActionPerformed
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
-        if (canFloat(widthBox.getText()) == false) {
-            whlError.setText("Please enter a value for width");
-            widthBox.setForeground(Color.red);
-        } else if (Float.parseFloat(widthBox.getText()) < 1) {
-            whlError.setText("Value for height must be greater than 1");
-            widthBox.setForeground(Color.red);
-        } else if (canFloat(lengthBox.getText()) == false) {
-            whlError.setText("Please enter a value for length");
-            lengthBox.setForeground(Color.red);
-        } else if (Float.parseFloat(lengthBox.getText()) < 1) {
-            whlError.setText("Value for height must be greater than 1");
-            lengthBox.setForeground(Color.red);
-        } else if (canFloat(heightBox.getText()) == false) {
-            whlError.setText("Please enter a value for height");
-            heightBox.setForeground(Color.red);
-        } else if (Float.parseFloat(heightBox.getText()) < 1) {
-            whlError.setText("Value for height must be greater than 1");
-            heightBox.setForeground(Color.red);
-        } else if (gradeBox.getSelectedIndex() == 0) {
-            gradeError.setText("Please choose an option for grade");
-        } else if (colourPrint.getSelectedIndex() == 0) {
-            colourError.setText("Please choose an option for colour printing");
-        } else if (canFloat(quantityBox.getText()) == false) {
-            quantityError.setText("Quantity: between 1 and 100");
-            quantityBox.setForeground(Color.red);
-        } else if (Float.parseFloat(quantityBox.getText()) < 1 || Float.parseFloat(quantityBox.getText()) > 100) {
-            quantityError.setText("Quantity: between 1 and 100");
-            quantityBox.setForeground(Color.red);
+        if (canFloat(widthBox.getText()) == false || Float.parseFloat(widthBox.getText()) < 100 
+                || canFloat(lengthBox.getText()) == false || Float.parseFloat(lengthBox.getText()) < 100 
+                || canFloat(heightBox.getText()) == false || Float.parseFloat(heightBox.getText()) < 100 
+                || gradeBox.getSelectedIndex() == 0 || colourPrint.getSelectedIndex() == 0 
+                || canFloat(quantityBox.getText()) == false || Float.parseFloat(quantityBox.getText()) < 1 
+                || Float.parseFloat(quantityBox.getText()) > 100) {//if value is parsable as a float
+            check = false;
         } else {
-            check = true;
+            check = true;//this variable is used so box type objects can be intialised without errors
         }
+        
 
         if (check == true) {
             height = Float.parseFloat(heightBox.getText());
@@ -531,23 +576,15 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_quantityBoxKeyTyped
 
     private void colourPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_colourPrintActionPerformed
-        if (colourPrint.getSelectedIndex() != 0) {
-            colourError.setText(" ");
-        }
+        verifyColour();
     }//GEN-LAST:event_colourPrintActionPerformed
 
     private void quantityBoxKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_quantityBoxKeyReleased
-        if (canFloat(quantityBox.getText())) {
-            quantityError.setText(" ");
-            quantityBox.setForeground(Color.black);
-        }
+       verifyQuantity();
     }//GEN-LAST:event_quantityBoxKeyReleased
 
     private void widthBoxKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_widthBoxKeyReleased
-        if (canFloat(widthBox.getText())) {
-            whlError.setText(" ");
-            widthBox.setForeground(Color.black);
-        }
+        verifyWidth();
     }//GEN-LAST:event_widthBoxKeyReleased
 
     private void lengthBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lengthBoxActionPerformed
@@ -555,21 +592,15 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_lengthBoxActionPerformed
 
     private void lengthBoxKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lengthBoxKeyReleased
-        if (canFloat(lengthBox.getText())) {
-            whlError.setText(" ");
-            lengthBox.setForeground(Color.black);
-        }
+        verifyLength();
     }//GEN-LAST:event_lengthBoxKeyReleased
 
     private void heightBoxKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_heightBoxKeyReleased
-        if (canFloat(heightBox.getText())) {
-            whlError.setText(" ");
-            heightBox.setForeground(Color.black);
-        }
+        verifyHeight();
     }//GEN-LAST:event_heightBoxKeyReleased
 
     private void helpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpButtonActionPerformed
-        mesbox("Type 1 box: Grade 1-3, no colours, no corner/bottom reinforcement \n"
+        mesbox("Type 1 box: Grade 1-3, no colours, no corner/bottom reinforcement \n"// help section
                 + "Type 2 box: Grade 2-4, one colour, no corner/bottom reinforcement \n"
                 + "Type 3 box: Grade 2-5, 2 colours, no corner/bottom reinforcement \n"
                 + "Type 4 box: Grade 2-5, 2 colours, bottom reinforcement \n"
@@ -584,19 +615,18 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_orderCostActionPerformed
 
     private void orderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orderButtonActionPerformed
-        finalTotal = 0;
+        finalTotal = 0;//reset combined value of arraylist items
         for (int i = 0; i < orderTotal.size(); i++) {
-            finalTotal += orderTotal.get(i);
-            displayOrders(i, orderTotal.get(i));
+            finalTotal += orderTotal.get(i);//get combined total of order in arraylist
+            displayOrders(i, orderTotal.get(i));//method to write orders on the GUI
         }
-        finalTotal = Math.round(finalTotal * 100.00) / 100.00;
+        finalTotal = Math.round(finalTotal * 100.00) / 100.00;//formatting total
         String totalText = Double.toString(finalTotal);
-        orderCost.setText("£" + totalText);
-
+        orderCost.setText("£" + totalText);//displaying cost on GUI
     }//GEN-LAST:event_orderButtonActionPerformed
     private void displayOrders(int orderIndex, double priceIndex) {
 
-        int boxColour = boxList.get(orderIndex).colour;
+        int boxColour = boxList.get(orderIndex).colour;//getting index of the colour selection
         switch (boxColour) {
 
             case 1:
@@ -631,7 +661,7 @@ public class Main extends javax.swing.JFrame {
         corner = cornerReinf.isSelected();
         bottom = bottomReinf.isSelected();*/
 
-        outputArea.append("\nOrder " + (orderIndex + 1));
+        outputArea.append("\nOrder " + (orderIndex + 1));//writing values to the GUI
         outputArea.append("\n-------------------------------------------------------------");
         outputArea.append("\nBox height/length/width: " + boxList.get(orderIndex).height + "mm/" + boxList.get(orderIndex).length + "mm/" + boxList.get(orderIndex).width + "mm");
         outputArea.append("\nCardboard grade: " + boxList.get(orderIndex).grade);
@@ -647,6 +677,43 @@ public class Main extends javax.swing.JFrame {
     private void costBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_costBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_costBoxActionPerformed
+
+    private void widthBoxMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_widthBoxMouseClicked
+        widthBox.setText("");
+    }//GEN-LAST:event_widthBoxMouseClicked
+
+    private void lengthBoxMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lengthBoxMouseClicked
+        lengthBox.setText("");
+    }//GEN-LAST:event_lengthBoxMouseClicked
+
+    private void heightBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_heightBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_heightBoxActionPerformed
+
+    private void heightBoxMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_heightBoxMouseClicked
+        heightBox.setText("");
+    }//GEN-LAST:event_heightBoxMouseClicked
+
+    private void quantityBoxMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_quantityBoxMouseClicked
+        quantityBox.setText("");
+    }//GEN-LAST:event_quantityBoxMouseClicked
+
+    private void gradeBoxMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gradeBoxMouseEntered
+
+    }//GEN-LAST:event_gradeBoxMouseEntered
+
+    private void colourPrintMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_colourPrintMouseEntered
+ 
+    }//GEN-LAST:event_colourPrintMouseEntered
+
+    private void submitButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_submitButtonMouseEntered
+        verifyHeight();
+        verifyLength();
+        verifyWidth();
+        verifyColour();
+        verifyGrade();
+        verifyQuantity();
+    }//GEN-LAST:event_submitButtonMouseEntered
 
     /**
      * @param args the command line arguments
@@ -683,11 +750,11 @@ public class Main extends javax.swing.JFrame {
         });
     }
 
-    private void mesbox(String s) {
+    private void mesbox(String s) {//help box
         JOptionPane.showMessageDialog(null, s);
     }
 
-    public static boolean canFloat(String stringNum) {
+    public static boolean canFloat(String stringNum) {//checks if a value can be parsed as a float
         try {
             float f = Float.parseFloat(stringNum);
 
@@ -697,7 +764,7 @@ public class Main extends javax.swing.JFrame {
         return true;
     }
 
-    private void BoxType1() {
+    private void BoxType1() {//creates object of box type 1
 
         Type1 boxType1 = new Type1(height, width, length, grade, quantity, top);
         run = boxType1.calculate(blank);
@@ -746,8 +813,74 @@ public class Main extends javax.swing.JFrame {
         orderTotal.add(run);
         boxList.add(boxType5);
     }
+    
+    private void verifyHeight(){
+       if (canFloat(heightBox.getText()) == false) {
+            whlError.setText("Please enter a value for height");
+            heightBox.setForeground(Color.red);
+        } else if (Float.parseFloat(heightBox.getText()) < 100) {
+            whlError.setText("Value for height must be greater than 100mm");
+            heightBox.setForeground(Color.red);
+        } else {
+            whlError.setText(" ");
+            heightBox.setForeground(Color.black);
+        }  
+    }
+    
+    private void verifyLength(){
+        if (canFloat(lengthBox.getText()) == false) {
+            whlError.setText("Please enter a value for length");
+            lengthBox.setForeground(Color.red);
+        } else if (Float.parseFloat(lengthBox.getText()) < 100) {
+            whlError.setText("Value for length must be greater than 100mm");
+            lengthBox.setForeground(Color.red);
+        } else {
+            whlError.setText(" ");
+            lengthBox.setForeground(Color.black);
+        }  
+    }
+    
+    private void verifyWidth(){
+        if (canFloat(widthBox.getText()) == false) {
+            whlError.setText("Please enter a value for width"); //error message displayed
+            widthBox.setForeground(Color.red); //font colour changed to red
+        } else if (Float.parseFloat(widthBox.getText()) < 100) {
+            whlError.setText("Value for width must be greater than 100mm");//a reasonable starting size for box width
+            widthBox.setForeground(Color.red);
+        } else {
+            whlError.setText(" ");
+            widthBox.setForeground(Color.black);
+        } 
+    }
+    
+    private void verifyQuantity(){
+         if (canFloat(quantityBox.getText()) == false || Float.parseFloat(quantityBox.getText()) < 1 || Float.parseFloat(quantityBox.getText()) > 100) {
+            quantityError.setText("Must be a whole number between 1 and 100");
+            quantityBox.setForeground(Color.red);
+        } else {
+            quantityError.setText(" ");
+            quantityBox.setForeground(Color.black);
+        } 
+    }
+    
+    private void verifyColour(){
+        if (colourPrint.getSelectedIndex() == 0) {
+            colourError.setText("Please choose an option for colour printing");
+        } else {
+            colourError.setText(" ");
+        }
+    }
+    
+    private void verifyGrade(){
+        if (gradeBox.getSelectedIndex() == 0) {//removes error message if value has been selected
+            gradeError.setText("Please choose an option for grade");
+        } else {
+            gradeError.setText(" ");
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox bottomReinf;
+    private javax.swing.ButtonGroup checkBoxes;
     private javax.swing.JButton clearButton;
     private javax.swing.JButton closeButton;
     private javax.swing.JLabel colourError;
@@ -763,12 +896,14 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
     private java.awt.Label label1;
     private java.awt.Label label2;
     private javax.swing.JTextField lengthBox;
