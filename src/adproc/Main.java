@@ -729,6 +729,9 @@ public class Main extends javax.swing.JFrame {
                 || colourPrint.getSelectedIndex() == 0 || canFloat(quantityBox.getText()) == false
                 || Float.parseFloat(quantityBox.getText()) < 1 || Float.parseFloat(quantityBox.getText()) > 100) {
             check = false;
+        } else if(orderTotal.size() >= 15) {
+            check = false;
+            mesbox("You have reached the maxium amount of orders, please remove one before continuing.");
         } else {
             check = true;//this variable is used so box type objects can be intialised without errors
         }
